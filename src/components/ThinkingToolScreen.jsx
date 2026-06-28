@@ -3,31 +3,45 @@ import GameButton from './GameButton';
 import { speakText } from '../utils/speech';
 
 const ThinkingToolScreen = ({ t, language, onBack, onCorrect }) => {
-  const [needs, setNeeds] = useState([]);
-  const [wants, setWants] = useState([]);
-
-  const items = [
+  const [unclassifiedItems, setUnclassifiedItems] = useState([
     { id: 'food', name: t.makanan, type: 'need' },
     { id: 'water', name: t.water, type: 'need' },
     { id: 'toy', name: t.mainanKecil, type: 'want' },
     { id: 'ice', name: t.aiskrim, type: 'want' },
     { id: 'pencil', name: t.pencil, type: 'need' },
     { id: 'sticker', name: t.pelekatKartun, type: 'want' }
-  ];
+  ]);
+  const [needs, setNeeds] = useState([]);
+  const [wants, setWants] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [feedback, setFeedback] = useState(null);
 
-  const handleClassify = (item, category) => {
+  const selectedItem = unclassifiedItems.find(i => i.id === selectedItemId);
+
+  const handleSelectItem = (id) => {
+    setSelectedItemId(id);
+    setFeedback(null);
+  };
+
+  const handlePlaceIn = (category) => {
+    if (!selectedItem) return;
+
+    const isCorrect = selectedItem.type === category;
+
     if (category === 'need') {
-      if (!needs.find(i => i.id === item.id)) {
-        setNeeds([...needs, item]);
-        setWants(wants.filter(i => i.id !== item.id));
-        if (item.type === 'need') onCorrect();
-      }
+      setNeeds([...needs, { ...selectedItem, correct: isCorrect }]);
     } else {
-      if (!wants.find(i => i.id === item.id)) {
-        setWants([...wants, item]);
-        setNeeds(needs.filter(i => i.id !== item.id));
-        if (item.type === 'want') onCorrect();
-      }
+      setWants([...wants, { ...selectedItem, correct: isCorrect }]);
+    }
+
+    setUnclassifiedItems(unclassifiedItems.filter(i => i.id !== selectedItemId));
+    setSelectedItemId(null);
+
+    if (isCorrect) {
+      onCorrect();
+      setFeedback({ type: 'success', text: t.smartChoice });
+    } else {
+      setFeedback({ type: 'error', text: t.tryAgain });
     }
   };
 
@@ -44,32 +58,60 @@ const ThinkingToolScreen = ({ t, language, onBack, onCorrect }) => {
           <GameButton color="#666" onClick={handleListen}>🔊</GameButton>
         </div>
 
-        <div className="items-to-classify">
-          {items.map(item => (
-            <div key={item.id} className="card" style={{ padding: '10px', display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <span>{item.name}</span>
-              <button className="classify-btn" onClick={() => handleClassify(item, 'need')}>{t.needs}</button>
-              <button className="classify-btn" onClick={() => handleClassify(item, 'want')}>{t.wants}</button>
-            </div>
-          ))}
+        {feedback && (
+          <div className={`feedback-text ${feedback.type}`} style={{ textAlign: 'center', fontWeight: 'bold', marginBottom: '10px' }}>
+            {feedback.text}
+          </div>
+        )}
+
+        <div className="items-pool">
+          <h3>{unclassifiedItems.length > 0 ? (language === 'bm' ? 'Pilih Item:' : 'Select Item:') : (language === 'bm' ? 'Syabas! Semua sudah dikelaskan.' : 'Well done! All items classified.')}</h3>
+          <div className="items-grid">
+            {unclassifiedItems.map(item => (
+              <div
+                key={item.id}
+                className={`draggable-item ${selectedItemId === item.id ? 'selected' : ''}`}
+                onClick={() => handleSelectItem(item.id)}
+              >
+                {item.name}
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="tree-map">
-          <div className="tree-column">
+        <div className="drop-zones">
+          <div
+            className={`drop-zone need-zone ${selectedItem ? 'active' : ''}`}
+            onClick={() => handlePlaceIn('need')}
+          >
             <div className="category-header keperluan">{t.needs}</div>
-            <div className="tree-items">
-              {needs.map(i => <div key={i.id} className="tree-item">✅ {i.name}</div>)}
+            <div className="zone-items">
+              {needs.map(i => (
+                <div key={i.id} className={`zone-item ${i.correct ? 'correct' : 'wrong'}`}>
+                  {i.correct ? '✅' : '❌'} {i.name}
+                </div>
+              ))}
             </div>
+            {selectedItem && <div className="drop-hint">{language === 'bm' ? 'Klik untuk letak di sini' : 'Click to place here'}</div>}
           </div>
-          <div className="tree-column">
+
+          <div
+            className={`drop-zone want-zone ${selectedItem ? 'active' : ''}`}
+            onClick={() => handlePlaceIn('want')}
+          >
             <div className="category-header kehendak">{t.wants}</div>
-            <div className="tree-items">
-              {wants.map(i => <div key={i.id} className="tree-item">✅ {i.name}</div>)}
+            <div className="zone-items">
+              {wants.map(i => (
+                <div key={i.id} className={`zone-item ${i.correct ? 'correct' : 'wrong'}`}>
+                  {i.correct ? '✅' : '❌'} {i.name}
+                </div>
+              ))}
             </div>
+            {selectedItem && <div className="drop-hint">{language === 'bm' ? 'Klik untuk letak di sini' : 'Click to place here'}</div>}
           </div>
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <div style={{ textAlign: 'center', marginTop: '30px' }}>
           <GameButton color="var(--soft-red)" onClick={onBack}>{t.back}</GameButton>
         </div>
       </div>

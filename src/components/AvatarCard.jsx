@@ -4,7 +4,7 @@ import GameButton from './GameButton';
 export const AimanAvatar = () => (
   <svg width="120" height="150" viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="60" cy="50" r="40" fill="#FFE0B2"/>
-    <path d="M20 50C20 20 100 20 100 50" fill="#5D4037"/>
+    <path d="M20 40C20 10 100 10 100 40C100 40 85 30 60 30C35 30 20 40 20 40Z" fill="#5D4037"/>
     <circle cx="45" cy="45" r="4" fill="#333"/>
     <circle cx="75" cy="45" r="4" fill="#333"/>
     <path d="M50 65C50 65 60 75 70 65" stroke="#333" strokeWidth="2" strokeLinecap="round"/>
@@ -16,7 +16,7 @@ export const AimanAvatar = () => (
 export const SaraAvatar = () => (
   <svg width="120" height="150" viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="60" cy="50" r="40" fill="#FFE0B2"/>
-    <path d="M20 50C20 10 100 10 100 50V70H20V50Z" fill="#263238"/>
+    <path d="M20 40C20 10 100 10 100 40V80H90V40C90 40 80 35 60 35C40 35 30 40 30 40V80H20V40Z" fill="#263238"/>
     <circle cx="45" cy="45" r="4" fill="#333"/>
     <circle cx="75" cy="45" r="4" fill="#333"/>
     <path d="M50 65C50 65 60 75 70 65" stroke="#333" strokeWidth="2" strokeLinecap="round"/>
@@ -28,7 +28,7 @@ export const SaraAvatar = () => (
 export const DanishAvatar = () => (
   <svg width="120" height="150" viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="60" cy="50" r="40" fill="#FFE0B2"/>
-    <path d="M20 40C40 20 80 20 100 40" fill="#8D6E63"/>
+    <path d="M20 40C20 15 100 15 100 40L110 45L10 45L20 40Z" fill="#8D6E63"/>
     <circle cx="45" cy="45" r="4" fill="#333"/>
     <circle cx="75" cy="45" r="4" fill="#333"/>
     <path d="M50 65C50 65 60 75 70 65" stroke="#333" strokeWidth="2" strokeLinecap="round"/>
