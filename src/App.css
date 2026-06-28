@@ -600,6 +600,16 @@ button:active {
 }
 
 /* Cover Screen Enhancements */
+.cover-screen {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.cover-screen .card {
+  margin-bottom: 0;
+}
+
 .game-title {
   color: var(--brick-orange);
   text-shadow: 6px 6px 0 var(--dark-text);
