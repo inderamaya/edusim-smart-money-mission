@@ -98,18 +98,31 @@ export const bgMusic = {
     initAudio();
     if (bgMusicInterval) return;
 
-    const tempo = 120;
+    const tempo = 130;
     const noteLength = 60 / tempo / 2; // eighth note
+
+    // Frequencies
+    const C3 = 130.81, G3 = 196.00;
+    const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392.00, A4 = 440.00, B4 = 493.88;
+    const C5 = 523.25, D5 = 587.33, E5 = 659.25, F5 = 698.46, G5 = 783.99, A5 = 880.00;
+
+    // Longer, more varied arcade pattern
     const pattern = [
-      261.63, 261.63, 392.00, 392.00, 440.00, 440.00, 392.00, 0,
-      349.23, 349.23, 329.63, 329.63, 293.66, 293.66, 261.63, 0
+      // Section A
+      C4, G4, C5, G4, D4, A4, D5, A4, E4, B4, E5, B4, F4, C5, F5, 0,
+      G4, D5, G5, D5, F4, C5, F5, C5, E4, B4, E5, B4, G4, D4, G3, 0,
+      // Section B
+      C4, E4, G4, C5, A4, F4, D4, G4, E4, C4, G3, C4, D4, E4, F4, G4,
+      A4, C5, E5, D5, B4, G4, E4, D4, C4, G3, C3, 0, 0, 0, 0, 0
     ];
     let step = 0;
 
     bgMusicInterval = setInterval(() => {
       const freq = pattern[step];
       if (freq > 0) {
-        playTone(freq, 'square', noteLength * 0.8, 0.03);
+        // Vary the oscillator type slightly for a more "arcade" feel
+        const oscType = (step % 8 < 4) ? 'square' : 'triangle';
+        playTone(freq, oscType, noteLength * 0.9, 0.02);
       }
       step = (step + 1) % pattern.length;
     }, noteLength * 1000);

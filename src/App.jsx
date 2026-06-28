@@ -45,7 +45,7 @@ function App() {
     setSoundEnabled(newState);
     if (!newState) {
       bgMusic.stop();
-    } else if (currentScreen !== 'COVER') {
+    } else {
       bgMusic.start();
     }
   };
@@ -99,7 +99,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (soundEnabled && currentScreen !== 'COVER') {
+    if (soundEnabled) {
       bgMusic.start();
     } else {
       bgMusic.stop();
@@ -202,6 +202,7 @@ function App() {
         balance={balance}
         stars={stars}
         coins={coins}
+        completedMissions={completedMissions}
         avatar={selectedAvatar}
         onHome={() => navigateTo('COVER')}
         onMap={() => navigateTo('MISSION_MAP')}

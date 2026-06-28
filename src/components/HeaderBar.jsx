@@ -1,7 +1,7 @@
 import React from 'react';
-import { Home, Map, User, Wallet, Coins, Star, Volume2, VolumeX, Languages } from 'lucide-react';
+import { Home, Map, User, Wallet, Coins, Star, Volume2, VolumeX, Languages, Trophy } from 'lucide-react';
 
-const HeaderBar = ({ t, balance, stars, coins, avatar, onHome, onMap, soundEnabled, toggleSound, language, toggleLanguage }) => {
+const HeaderBar = ({ t, balance, stars, coins, avatar, onHome, onMap, soundEnabled, toggleSound, language, toggleLanguage, completedMissions = [] }) => {
   return (
     <header className="header-bar">
       <div className="header-left">
@@ -24,18 +24,23 @@ const HeaderBar = ({ t, balance, stars, coins, avatar, onHome, onMap, soundEnabl
           )}
         </div>
 
+        <div className="counter" title={t.level}>
+          <Trophy size={20} color="var(--dark-text)" fill="var(--brick-orange)" />
+          <span>{completedMissions.length + 1}</span>
+        </div>
+
         <div className="counter" title={t.balance}>
           <Wallet size={20} color="var(--deep-blue)" />
           <span>RM{balance}</span>
         </div>
 
         <div className="counter" title={t.coins}>
-          <Coins size={20} color="var(--coin-yellow)" />
+          <Coins size={20} color="var(--dark-text)" />
           <span>{coins}</span>
         </div>
 
         <div className="counter" title={t.stars}>
-          <Star size={20} color="var(--star-gold)" fill="var(--star-gold)" />
+          <Star size={20} color="var(--dark-text)" fill="var(--star-gold)" />
           <span>{stars}</span>
         </div>
       </div>
