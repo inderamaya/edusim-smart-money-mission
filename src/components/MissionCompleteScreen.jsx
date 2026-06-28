@@ -1,6 +1,7 @@
 import React from 'react';
 import GameButton from './GameButton';
 import { speakText } from '../utils/speech';
+import { Trophy, Star, Coins, Wallet, Volume2, Map, RotateCcw } from 'lucide-react';
 
 const MissionCompleteScreen = ({ t, language, stars, balance, coins, onRestart, onMap }) => {
   const handleListen = () => {
@@ -13,21 +14,27 @@ const MissionCompleteScreen = ({ t, language, stars, balance, coins, onRestart, 
   return (
     <div className="screen-layout">
       <div className="card result-card">
-        <div className="badge-animation">🏆</div>
+        <div className="badge-animation"><Trophy size={80} color="var(--star-gold)" /></div>
         <h1>{t.missionComplete}</h1>
 
         <div className="stats-box">
           <div className="stat">
             <div className="stat-label">{t.stars}</div>
-            <div className="stat-value">⭐ {stars}</div>
+            <div className="stat-value" style={{ display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'center' }}>
+              <Star size={24} color="var(--star-gold)" fill="var(--star-gold)" /> {stars}
+            </div>
           </div>
           <div className="stat">
             <div className="stat-label">{t.coins}</div>
-            <div className="stat-value">🪙 {coins}</div>
+            <div className="stat-value" style={{ display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'center' }}>
+              <Coins size={24} color="var(--coin-yellow)" /> {coins}
+            </div>
           </div>
           <div className="stat">
             <div className="stat-label">{t.balance}</div>
-            <div className="stat-value">💰 RM{balance}</div>
+            <div className="stat-value" style={{ display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'center' }}>
+              <Wallet size={24} color="var(--deep-blue)" /> RM{balance}
+            </div>
           </div>
         </div>
 
@@ -38,16 +45,16 @@ const MissionCompleteScreen = ({ t, language, stars, balance, coins, onRestart, 
 
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <GameButton color="#666" onClick={handleListen}>
-            🔊 {t.listen}
+            <Volume2 size={20} /> {t.listen}
           </GameButton>
         </div>
 
         <div className="button-footer">
           <GameButton color="var(--deep-blue)" onClick={onMap}>
-            🗺️ {t.map}
+            <Map size={20} /> {t.map}
           </GameButton>
           <GameButton color="var(--grass-green)" onClick={onRestart}>
-            🔄 {t.playAgain}
+            <RotateCcw size={20} /> {t.playAgain}
           </GameButton>
         </div>
       </div>

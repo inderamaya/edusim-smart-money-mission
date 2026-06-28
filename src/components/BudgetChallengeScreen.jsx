@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import GameButton from './GameButton';
 import { speakText } from '../utils/speech';
+import { Volume2 } from 'lucide-react';
 
 const BudgetChallengeScreen = ({ t, language, onComplete }) => {
   const [answer, setAnswer] = useState('');
@@ -34,7 +35,7 @@ const BudgetChallengeScreen = ({ t, language, onComplete }) => {
 
         <div style={{ textAlign: 'center', margin: '20px 0' }}>
           <GameButton color="#666" onClick={handleListen}>
-            🔊 {t.listen}
+            <Volume2 size={20} /> {t.listen}
           </GameButton>
         </div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import GameButton from './GameButton';
 import { speakText } from '../utils/speech';
+import { Volume2, CheckCircle2, XCircle, ArrowLeft } from 'lucide-react';
 
 const ThinkingToolScreen = ({ t, language, onBack, onCorrect }) => {
   const [unclassifiedItems, setUnclassifiedItems] = useState([
@@ -55,7 +56,7 @@ const ThinkingToolScreen = ({ t, language, onBack, onCorrect }) => {
         <h2>{t.thinkingToolTitle}</h2>
 
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <GameButton color="#666" onClick={handleListen}>🔊</GameButton>
+          <GameButton color="#666" onClick={handleListen}><Volume2 size={20} /></GameButton>
         </div>
 
         {feedback && (
@@ -88,7 +89,7 @@ const ThinkingToolScreen = ({ t, language, onBack, onCorrect }) => {
             <div className="zone-items">
               {needs.map(i => (
                 <div key={i.id} className={`zone-item ${i.correct ? 'correct' : 'wrong'}`}>
-                  {i.correct ? '✅' : '❌'} {i.name}
+                  {i.correct ? <CheckCircle2 size={16} color="var(--grass-green)" /> : <XCircle size={16} color="var(--soft-red)" />} {i.name}
                 </div>
               ))}
             </div>
@@ -103,7 +104,7 @@ const ThinkingToolScreen = ({ t, language, onBack, onCorrect }) => {
             <div className="zone-items">
               {wants.map(i => (
                 <div key={i.id} className={`zone-item ${i.correct ? 'correct' : 'wrong'}`}>
-                  {i.correct ? '✅' : '❌'} {i.name}
+                  {i.correct ? <CheckCircle2 size={16} color="var(--grass-green)" /> : <XCircle size={16} color="var(--soft-red)" />} {i.name}
                 </div>
               ))}
             </div>
@@ -112,7 +113,7 @@ const ThinkingToolScreen = ({ t, language, onBack, onCorrect }) => {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <GameButton color="var(--soft-red)" onClick={onBack}>{t.back}</GameButton>
+          <GameButton color="var(--soft-red)" onClick={onBack}><ArrowLeft size={20} /> {t.back}</GameButton>
         </div>
       </div>
     </div>

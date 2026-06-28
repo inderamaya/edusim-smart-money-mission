@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import GameButton from './GameButton';
 import BudgetBar from './BudgetBar';
 import { speakText } from '../utils/speech';
+import { Pencil, Volume2, PenTool, Eraser, Book } from 'lucide-react';
 
 const Mission5Screen = ({ t, language, balance, onComplete, showFeedback }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const items = [
-    { id: 'pensel_b', name: t.penselBiasa, price: 1, icon: '✏️', type: 'need' },
-    { id: 'pensel_m', name: t.penselMekanikal, price: 3, icon: '🖋️', type: 'want' },
-    { id: 'pemadam', name: t.pemadam, price: 1, icon: '🧼', type: 'need' },
-    { id: 'nota', name: t.bukuNota, price: 2, icon: '📓', type: 'need' }
+    { id: 'pensel_b', name: t.penselBiasa, price: 1, icon: <Pencil size={32} />, type: 'need' },
+    { id: 'pensel_m', name: t.penselMekanikal, price: 3, icon: <PenTool size={32} />, type: 'want' },
+    { id: 'pemadam', name: t.pemadam, price: 1, icon: <Eraser size={32} />, type: 'need' },
+    { id: 'nota', name: t.bukuNota, price: 2, icon: <Book size={32} />, type: 'need' }
   ];
 
   const toggleItem = (item) => {
@@ -50,7 +51,7 @@ const Mission5Screen = ({ t, language, balance, onComplete, showFeedback }) => {
     <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
-          <span className="mission-icon">✏️</span>
+          <Pencil size={48} color="var(--deep-blue)" />
           <h2>{t.mission5}</h2>
         </div>
 
@@ -78,7 +79,7 @@ const Mission5Screen = ({ t, language, balance, onComplete, showFeedback }) => {
 
         <div className="cart-summary">
           <strong>Total: RM{total}</strong>
-          <GameButton color="#666" onClick={handleListen}>🔊</GameButton>
+          <GameButton color="#666" onClick={handleListen}><Volume2 size={20} /></GameButton>
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '20px' }}>

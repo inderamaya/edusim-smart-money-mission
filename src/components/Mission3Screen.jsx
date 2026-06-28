@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import GameButton from './GameButton';
 import BudgetBar from './BudgetBar';
 import { speakText } from '../utils/speech';
+import { School, Volume2, Pencil, Book, Eraser, Sparkles, ToyBrick } from 'lucide-react';
 
 const Mission3Screen = ({ t, language, balance, onComplete, showFeedback }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const items = [
-    { id: 'pensel', name: t.pensel, price: 1, icon: '✏️', type: 'need' },
-    { id: 'buku', name: t.bukuLatihan, price: 2, icon: '📓', type: 'need' },
-    { id: 'pemadam', name: t.pemadam, price: 1, icon: '🧼', type: 'need' },
-    { id: 'sticker', name: t.pelekatKartun, price: 1, icon: '✨', type: 'want' },
-    { id: 'toy', name: t.mainanKecil, price: 3, icon: '🧸', type: 'want' }
+    { id: 'pensel', name: t.pensel, price: 1, icon: <Pencil size={32} />, type: 'need' },
+    { id: 'buku', name: t.bukuLatihan, price: 2, icon: <Book size={32} />, type: 'need' },
+    { id: 'pemadam', name: t.pemadam, price: 1, icon: <Eraser size={32} />, type: 'need' },
+    { id: 'sticker', name: t.pelekatKartun, price: 1, icon: <Sparkles size={32} />, type: 'want' },
+    { id: 'toy', name: t.mainanKecil, price: 3, icon: <ToyBrick size={32} />, type: 'want' }
   ];
 
   const toggleItem = (item) => {
@@ -51,7 +52,7 @@ const Mission3Screen = ({ t, language, balance, onComplete, showFeedback }) => {
     <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
-          <span className="mission-icon">🏫</span>
+          <School size={48} color="var(--grass-green)" />
           <h2>{t.mission3}</h2>
         </div>
 
@@ -79,7 +80,7 @@ const Mission3Screen = ({ t, language, balance, onComplete, showFeedback }) => {
 
         <div className="cart-summary">
           <strong>Total: RM{total}</strong>
-          <GameButton color="#666" onClick={handleListen}>🔊</GameButton>
+          <GameButton color="#666" onClick={handleListen}><Volume2 size={20} /></GameButton>
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
