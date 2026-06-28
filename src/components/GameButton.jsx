@@ -1,5 +1,5 @@
 import React from 'react';
-import { sounds } from '../utils/sounds';
+import { sounds } from '../utils/audio';
 
 const GameButton = ({ children, onClick, color = 'var(--deep-blue)', size = 'medium', sound = 'click', disabled = false, className = '' }) => {
   const handleClick = (e) => {

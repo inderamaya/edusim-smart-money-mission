@@ -1,68 +1,91 @@
 import React, { useState } from 'react';
 import GameButton from './GameButton';
+import BudgetBar from './BudgetBar';
+import { speakText } from '../utils/speech';
 
-const Mission3Screen = ({ onComplete, showFeedback }) => {
+const Mission3Screen = ({ t, language, balance, onComplete, showFeedback }) => {
+  const [selectedItems, setSelectedItems] = useState([]);
+
   const items = [
-    { id: 'pensel', name: 'Pensel', price: 1, emoji: '✏️', type: 'keperluan' },
-    { id: 'buku', name: 'Buku latihan', price: 3, emoji: '📚', type: 'keperluan' },
-    { id: 'pemadam', name: 'Pemadam', price: 1, emoji: '🧽', type: 'keperluan' },
-    { id: 'pelekat', name: 'Pelekat kartun', price: 2, emoji: '🎨', type: 'kehendak' },
-    { id: 'mainan', name: 'Mainan kecil', price: 5, emoji: '🧸', type: 'kehendak' }
+    { id: 'pensel', name: t.pensel, price: 1, icon: '✏️', type: 'need' },
+    { id: 'buku', name: t.bukuLatihan, price: 2, icon: '📓', type: 'need' },
+    { id: 'pemadam', name: t.pemadam, price: 1, icon: '🧼', type: 'need' },
+    { id: 'sticker', name: t.pelekatKartun, price: 1, icon: '✨', type: 'want' },
+    { id: 'toy', name: t.mainanKecil, price: 3, icon: '🧸', type: 'want' }
   ];
 
-  const [selected, setSelected] = useState([]);
-
   const toggleItem = (item) => {
-    if (selected.find(i => i.id === item.id)) {
-      setSelected(selected.filter(i => i.id !== item.id));
+    if (selectedItems.find(i => i.id === item.id)) {
+      setSelectedItems(selectedItems.filter(i => i.id !== item.id));
     } else {
-      setSelected([...selected, item]);
+      setSelectedItems([...selectedItems, item]);
     }
   };
 
-  const total = selected.reduce((sum, item) => sum + item.price, 0);
+  const total = selectedItems.reduce((sum, item) => sum + item.price, 0);
 
-  const handleSubmit = () => {
-    const keperluanCount = selected.filter(i => i.type === 'keperluan').length;
-    const kehendakCount = selected.filter(i => i.type === 'kehendak').length;
+  const handleListen = () => {
+    const text = language === 'en'
+      ? "School Mission. Buy your school supplies. Only buy what you need."
+      : "Misi Sekolah. Beli peralatan sekolah kamu. Beli apa yang perlu sahaja.";
+    speakText(text, language);
+  };
 
-    if (keperluanCount >= 2 && kehendakCount === 0) {
-      showFeedback('success', 'Bagus!', 'Alat tulis membantu kamu belajar. Pilihan yang sangat bijak!');
-      onComplete(3, -total, 5);
-    } else if (keperluanCount < 2) {
-      showFeedback('error', 'Fikir Semula', 'Pilih barang yang penting untuk belajar dahulu.');
-    } else {
-      showFeedback('success', 'Pilihan Diterima', 'Kamu beli keperluan, tapi ingat, simpan wang itu lebih baik daripada beli kehendak.');
-      onComplete(3, -total, 3);
+  const handleFinish = () => {
+    if (total === 0) {
+      showFeedback('error', t.tryAgain, language === 'en' ? 'Please choose at least one item.' : 'Sila pilih sekurang-kurangnya satu item.');
+      return;
     }
+
+    const hasNeed = selectedItems.some(i => i.type === 'need');
+    if (!hasNeed) {
+      showFeedback('error', t.tryAgain, language === 'en' ? 'You need school supplies!' : 'Kamu perlukan peralatan sekolah!');
+      return;
+    }
+
+    showFeedback('success', t.smartChoice, language === 'en' ? `You bought school supplies for RM${total}.` : `Kamu membeli peralatan sekolah dengan RM${total}.`);
+    onComplete(3, -total, 1);
   };
 
   return (
-    <div className="screen-layout mission-screen">
+    <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
           <span className="mission-icon">🏫</span>
-          <h2>Misi 3: Sekolah</h2>
+          <h2>{t.mission3}</h2>
         </div>
-        <p className="scenario">Kamu perlu membeli beberapa alat tulis untuk kelas nanti.</p>
+
+        <BudgetBar t={t} balance={balance} />
+
+        <div className="scenario">
+          {language === 'en'
+            ? "You are at school. You need some stationery for class."
+            : "Kamu berada di sekolah. Kamu perlukan alat tulis untuk kelas."}
+        </div>
 
         <div className="items-grid">
           {items.map(item => (
-            <button
+            <div
               key={item.id}
-              className={`item-card ${selected.find(i => i.id === item.id) ? 'selected' : ''}`}
+              className={`item-card ${selectedItems.find(i => i.id === item.id) ? 'selected' : ''}`}
               onClick={() => toggleItem(item)}
             >
-              <span className="item-emoji">{item.emoji}</span>
-              <span className="item-name">{item.name}</span>
-              <span className="item-price">RM{item.price}</span>
-            </button>
+              <div className="item-emoji">{item.icon}</div>
+              <div className="item-name">{item.name}</div>
+              <div className="item-price">RM{item.price}</div>
+            </div>
           ))}
         </div>
 
         <div className="cart-summary">
-          <p>Jumlah: <strong>RM{total}</strong></p>
-          <GameButton color="var(--grass-green)" onClick={handleSubmit}>Selesai Pilih</GameButton>
+          <strong>Total: RM{total}</strong>
+          <GameButton color="#666" onClick={handleListen}>🔊</GameButton>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <GameButton color="var(--deep-blue)" onClick={handleFinish} className="btn-large">
+            {t.finish}
+          </GameButton>
         </div>
       </div>
     </div>

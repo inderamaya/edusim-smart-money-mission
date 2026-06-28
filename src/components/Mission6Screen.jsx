@@ -1,37 +1,54 @@
 import React from 'react';
 import GameButton from './GameButton';
+import BudgetBar from './BudgetBar';
+import { speakText } from '../utils/speech';
 
-const Mission6Screen = ({ onComplete, showFeedback }) => {
-  const handleChoice = (choice) => {
-    if (choice === 'B') {
-      showFeedback('success', 'Tahniah!', 'Kamu berjaya menyimpan wang untuk esok. Pilihan yang sangat bijak!');
-      onComplete(6, 0, 5);
-    } else if (choice === 'A') {
-      showFeedback('error', 'Cuba Lagi', 'Jangan habiskan wang untuk kehendak sahaja jika wang hampir habis.');
+const Mission6Screen = ({ t, language, balance, onComplete, showFeedback }) => {
+  const handleListen = () => {
+    const text = language === 'en'
+      ? "Mission 6: Playground. Time to play! Should you buy ice cream or save your money?"
+      : "Misi 6: Taman Permainan. Masa untuk bermain! Adakah kamu patut beli aiskrim atau simpan wang kamu?";
+    speakText(text, language);
+  };
+
+  const handleChoice = (buy) => {
+    if (buy) {
+      showFeedback('success', t.smartChoice, language === 'en' ? "A small treat after a long day! RM1 spent." : "Ganjaran kecil selepas penat belajar! RM1 dibelanjakan.");
+      onComplete(6, -1, 1);
     } else {
-      showFeedback('error', 'Cuba Lagi', 'Meminjam wang rakan untuk membeli kehendak bukan satu amalan yang baik.');
+      showFeedback('success', t.smartChoice, language === 'en' ? "Great! Saving for the future." : "Bagus! Simpan untuk masa depan.");
+      onComplete(6, 0, 1);
     }
   };
 
   return (
-    <div className="screen-layout mission-screen">
+    <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
           <span className="mission-icon">🛝</span>
-          <h2>Misi 6: Taman Permainan</h2>
+          <h2>{t.mission6}</h2>
         </div>
-        <p className="scenario">Seorang rakan mengajak kamu membeli mainan di taman permainan. Wang kamu hampir habis.</p>
-        <p className="question"><strong>Apakah pilihan terbaik kamu?</strong></p>
 
-        <div className="choice-list">
-          <GameButton color="var(--deep-blue)" onClick={() => handleChoice('A')}>
-            A. Beli mainan walaupun wang hampir habis.
+        <BudgetBar t={t} balance={balance} />
+
+        <div className="scenario">
+          {language === 'en'
+            ? "You are at the playground with friends. You see an ice cream truck selling mini popsicles for RM1."
+            : "Kamu berada di taman permainan bersama kawan-kawan. Kamu nampak lori aiskrim menjual aiskrim mini dengan harga RM1."}
+        </div>
+
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <GameButton color="#666" onClick={handleListen}>
+            🔊 {t.listen}
           </GameButton>
-          <GameButton color="var(--deep-blue)" onClick={() => handleChoice('B')}>
-            B. Simpan sebahagian wang untuk esok.
+        </div>
+
+        <div className="grid-flex" style={{ gap: '20px' }}>
+          <GameButton color="var(--soft-red)" onClick={() => handleChoice(true)} className="btn-large">
+            🍦 RM1
           </GameButton>
-          <GameButton color="var(--deep-blue)" onClick={() => handleChoice('C')}>
-            C. Pinjam wang rakan untuk beli mainan.
+          <GameButton color="var(--grass-green)" onClick={() => handleChoice(false)} className="btn-large">
+            💰 {language === 'en' ? 'Save' : 'Simpan'}
           </GameButton>
         </div>
       </div>
