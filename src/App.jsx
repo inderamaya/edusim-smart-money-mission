@@ -18,16 +18,21 @@ import Mission6Screen from './components/Mission6Screen';
 import BudgetChallengeScreen from './components/BudgetChallengeScreen';
 import TeacherNotesScreen from './components/TeacherNotesScreen';
 import MissionCompleteScreen from './components/MissionCompleteScreen';
-import { sounds } from './utils/sounds';
+import { sounds } from './utils/audio';
+import { translations } from './data/translations';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('COVER');
   const [selectedAvatar, setSelectedAvatar] = useState(null);
-  const [balance, setBalance] = useState(20);
+  const [language, setLanguage] = useState('bm');
+  const [balance, setBalance] = useState(10);
   const [stars, setStars] = useState(0);
+  const [coins, setCoins] = useState(0);
   const [completedMissions, setCompletedMissions] = useState([]);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [feedback, setFeedback] = useState(null);
+
+  const t = translations[language];
 
   // Navigation
   const navigateTo = (screen) => {
@@ -36,9 +41,14 @@ function App() {
   };
 
   const handleToggleSound = () => setSoundEnabled(!soundEnabled);
+  const handleToggleLanguage = () => {
+    setLanguage(prev => prev === 'bm' ? 'en' : 'bm');
+    if (soundEnabled && sounds.languageSwitch) sounds.languageSwitch();
+  };
 
   const handleAvatarSelect = (avatar) => {
     setSelectedAvatar(avatar);
+    if (soundEnabled && sounds.avatarSelect) sounds.avatarSelect();
     navigateTo('MISSION_MAP');
   };
 
@@ -52,13 +62,15 @@ function App() {
 
   const handleCorrectChoice = () => {
     setStars(prev => prev + 1);
+    setCoins(prev => prev + 5); // Smart choice gives some coins
     if (soundEnabled) sounds.coin();
   };
 
-  const handleMissionComplete = (id, balanceChange, starReward) => {
+  const handleMissionComplete = (id, balanceChange, starReward, coinReward = 10) => {
     if (!completedMissions.includes(id)) {
-      setBalance(prev => prev + balanceChange);
+      setBalance(prev => Math.max(0, prev + balanceChange));
       setStars(prev => prev + starReward);
+      setCoins(prev => prev + coinReward);
       setCompletedMissions(prev => [...prev, id]);
       if (soundEnabled) sounds.complete();
     }
@@ -71,17 +83,20 @@ function App() {
   };
 
   const resetGame = () => {
-    setBalance(20);
+    setBalance(10);
     setStars(0);
+    setCoins(0);
     setCompletedMissions([]);
     navigateTo('COVER');
   };
 
   const renderScreen = () => {
+    const commonProps = { t, language };
     switch (currentScreen) {
       case 'COVER':
         return (
           <CoverScreen
+            {...commonProps}
             onStart={() => navigateTo('AVATAR_SELECTION')}
             onInstructions={() => navigateTo('INSTRUCTIONS')}
             onObjectives={() => navigateTo('OBJECTIVES')}
@@ -90,21 +105,30 @@ function App() {
       case 'INSTRUCTIONS':
         return (
           <InstructionsScreen
+            {...commonProps}
             onBack={() => navigateTo('COVER')}
             onNext={() => navigateTo('AVATAR_SELECTION')}
           />
         );
       case 'OBJECTIVES':
-        return <ObjectivesScreen onBack={() => navigateTo('COVER')} />;
+        return <ObjectivesScreen {...commonProps} onBack={() => navigateTo('COVER')} />;
       case 'AVATAR_SELECTION':
-        return <AvatarSelectionScreen onSelect={handleAvatarSelect} />;
+        return <AvatarSelectionScreen {...commonProps} onSelect={handleAvatarSelect} />;
       case 'MISSION_MAP':
         return (
           <MissionMapScreen
+            {...commonProps}
             completedMissions={completedMissions}
             onSelectMission={(id) => {
-              if (id === 'THINKING_TOOL') navigateTo('THINKING_TOOL');
-              else navigateTo(`MISSION_${id}`);
+              if (id === 'THINKING_TOOL') {
+                navigateTo('THINKING_TOOL');
+              } else {
+                if (completedMissions.includes(id)) {
+                  showFeedback('info', t.missionComplete, t.alreadyCompleted);
+                } else {
+                  navigateTo(`MISSION_${id}`);
+                }
+              }
             }}
             onTeacherNotes={() => navigateTo('TEACHER_NOTES')}
           />
@@ -112,31 +136,34 @@ function App() {
       case 'THINKING_TOOL':
         return (
           <ThinkingToolScreen
+            {...commonProps}
             onBack={() => navigateTo('MISSION_MAP')}
             onCorrect={handleCorrectChoice}
           />
         );
       case 'MISSION_1':
-        return <Mission1Screen onComplete={handleMissionComplete} showFeedback={showFeedback} />;
+        return <Mission1Screen {...commonProps} balance={balance} onComplete={handleMissionComplete} showFeedback={showFeedback} />;
       case 'MISSION_2':
-        return <Mission2Screen onComplete={handleMissionComplete} showFeedback={showFeedback} />;
+        return <Mission2Screen {...commonProps} balance={balance} onComplete={handleMissionComplete} showFeedback={showFeedback} />;
       case 'MISSION_3':
-        return <Mission3Screen onComplete={handleMissionComplete} showFeedback={showFeedback} />;
+        return <Mission3Screen {...commonProps} balance={balance} onComplete={handleMissionComplete} showFeedback={showFeedback} />;
       case 'MISSION_4':
-        return <Mission4Screen onComplete={handleMissionComplete} showFeedback={showFeedback} />;
+        return <Mission4Screen {...commonProps} balance={balance} onComplete={handleMissionComplete} showFeedback={showFeedback} />;
       case 'MISSION_5':
-        return <Mission5Screen onComplete={handleMissionComplete} showFeedback={showFeedback} />;
+        return <Mission5Screen {...commonProps} balance={balance} onComplete={handleMissionComplete} showFeedback={showFeedback} />;
       case 'MISSION_6':
-        return <Mission6Screen onComplete={handleMissionComplete} showFeedback={showFeedback} />;
+        return <Mission6Screen {...commonProps} balance={balance} onComplete={handleMissionComplete} showFeedback={showFeedback} />;
       case 'BUDGET_CHALLENGE':
-        return <BudgetChallengeScreen onComplete={() => navigateTo('MISSION_COMPLETE')} />;
+        return <BudgetChallengeScreen {...commonProps} onComplete={() => navigateTo('MISSION_COMPLETE')} />;
       case 'TEACHER_NOTES':
-        return <TeacherNotesScreen onBack={() => navigateTo('MISSION_MAP')} />;
+        return <TeacherNotesScreen {...commonProps} onBack={() => navigateTo('MISSION_MAP')} />;
       case 'MISSION_COMPLETE':
         return (
           <MissionCompleteScreen
+            {...commonProps}
             stars={stars}
             balance={balance}
+            coins={coins}
             onRestart={resetGame}
             onMap={() => navigateTo('MISSION_MAP')}
           />
@@ -155,13 +182,17 @@ function App() {
   return (
     <div className="game-container">
       <HeaderBar
+        t={t}
         balance={balance}
         stars={stars}
+        coins={coins}
         avatar={selectedAvatar}
         onHome={() => navigateTo('COVER')}
         onMap={() => navigateTo('MISSION_MAP')}
         soundEnabled={soundEnabled}
         toggleSound={handleToggleSound}
+        language={language}
+        toggleLanguage={handleToggleLanguage}
       />
 
       <PlatformBackground>
@@ -169,6 +200,7 @@ function App() {
       </PlatformBackground>
 
       <FeedbackModal
+        t={t}
         feedback={feedback}
         onClose={() => setFeedback(null)}
       />

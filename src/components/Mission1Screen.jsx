@@ -1,35 +1,45 @@
 import React from 'react';
 import GameButton from './GameButton';
+import BudgetBar from './BudgetBar';
+import { speakText } from '../utils/speech';
 
-const Mission1Screen = ({ onComplete, showFeedback }) => {
-  const handleChoice = (choice) => {
-    if (choice === 'B') {
-      showFeedback('success', 'Syabas!', 'Merancang wang ialah pilihan bijak.');
-      onComplete(1, 0, 5); // missionId, balanceChange, starReward
-    } else {
-      showFeedback('error', 'Cuba Lagi', 'Wang perlu digunakan untuk keperluan dahulu. Rancang perbelanjaan kamu.');
-    }
+const Mission1Screen = ({ t, language, balance, onComplete, showFeedback }) => {
+  const handleListen = () => {
+    const text = language === 'en'
+      ? "Mission 1: Home. Your mother gives you RM10 for today. Save it in your wallet."
+      : "Misi 1: Rumah. Ibu memberi kamu RM10 untuk hari ini. Simpan wang ini di dalam dompet.";
+    speakText(text, language);
+  };
+
+  const handleFinish = () => {
+    onComplete(1, 0, 1); // No balance change, 1 star
   };
 
   return (
-    <div className="screen-layout mission-screen">
+    <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
           <span className="mission-icon">🏠</span>
-          <h2>Misi 1: Rumah</h2>
+          <h2>{t.mission1}</h2>
         </div>
-        <p className="scenario">Kamu baru sahaja menerima <strong>RM20</strong> sebagai wang saku untuk hari ini.</p>
-        <p className="question"><strong>Apakah tindakan pertama yang bijak?</strong></p>
 
-        <div className="choice-list">
-          <GameButton color="var(--deep-blue)" onClick={() => handleChoice('A')}>
-            A. Belanja semua wang sebelum sekolah.
+        <BudgetBar t={t} balance={balance} />
+
+        <div className="scenario">
+          {language === 'en'
+            ? "Your mother gives you RM10 for school today. Remember to spend wisely!"
+            : "Ibu memberi kamu RM10 untuk ke sekolah hari ini. Ingat, belanja dengan bijak!"}
+        </div>
+
+        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+          <GameButton color="#666" onClick={handleListen}>
+            🔊 {t.listen}
           </GameButton>
-          <GameButton color="var(--deep-blue)" onClick={() => handleChoice('B')}>
-            B. Rancang perbelanjaan hari ini.
-          </GameButton>
-          <GameButton color="var(--deep-blue)" onClick={() => handleChoice('C')}>
-            C. Beli mainan dahulu.
+        </div>
+
+        <div style={{ textAlign: 'center' }}>
+          <GameButton color="var(--deep-blue)" onClick={handleFinish} className="btn-large">
+            {t.next} ➡️
           </GameButton>
         </div>
       </div>

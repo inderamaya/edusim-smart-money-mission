@@ -1,29 +1,45 @@
 import React from 'react';
-import CoinCounter from './CoinCounter';
-import StarCounter from './StarCounter';
 
-const HeaderBar = ({ balance, stars, avatar, onHome, onMap, soundEnabled, toggleSound }) => {
+const HeaderBar = ({ t, balance, stars, coins, avatar, onHome, onMap, soundEnabled, toggleSound, language, toggleLanguage }) => {
   return (
     <header className="header-bar">
       <div className="header-left">
-        <button className="icon-btn" onClick={onHome} aria-label="Laman Utama">🏠</button>
-        <button className="icon-btn" onClick={onMap} aria-label="Peta Misi">🗺️</button>
+        <button className="icon-btn" onClick={onHome} title={t.home} aria-label={t.home}>🏠</button>
+        <button className="icon-btn" onClick={onMap} title={t.map} aria-label={t.map}>🗺️</button>
       </div>
 
       <div className="header-center">
         <div className="avatar-mini">
           {avatar ? (
-            <span className="avatar-emoji">{avatar.emoji}</span>
+             <div style={{ transform: 'scale(0.3)' }}>
+                {avatar.component}
+             </div>
           ) : (
-            <span className="avatar-emoji">👤</span>
+            <span style={{ fontSize: '1.5rem' }}>👤</span>
           )}
         </div>
-        <CoinCounter amount={balance} />
-        <StarCounter amount={stars} />
+
+        <div className="counter" title={t.balance}>
+          <span className="coin-icon">💰</span>
+          <span>RM{balance}</span>
+        </div>
+
+        <div className="counter" title={t.coins}>
+          <span className="coin-icon">🪙</span>
+          <span>{coins}</span>
+        </div>
+
+        <div className="counter" title={t.stars}>
+          <span className="star-icon">⭐</span>
+          <span>{stars}</span>
+        </div>
       </div>
 
       <div className="header-right">
-        <button className="icon-btn" onClick={toggleSound} aria-label={soundEnabled ? "Matikan Bunyi" : "Pasang Bunyi"}>
+        <button className="icon-btn" onClick={toggleLanguage} title="Change Language">
+          {language === 'bm' ? 'BM' : 'EN'}
+        </button>
+        <button className="icon-btn" onClick={toggleSound} title={soundEnabled ? "Mute" : "Unmute"}>
           {soundEnabled ? '🔊' : '🔈'}
         </button>
       </div>

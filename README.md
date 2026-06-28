@@ -1,48 +1,55 @@
-# EduSim: Misi Bijak Wang
-
-EduSim: Misi Bijak Wang is a polished, interactive educational web application designed for Malaysian upper primary pupils and pupils with mild learning difficulties. It teaches basic financial literacy and mathematics through a platform-game inspired adventure.
+# EduSim: Misi Bijak Wang (Smart Money Mission)
 
 ## Project Description
-The app simulates a school day where the user manages **RM20**. Pupils must navigate through various missions—from home to school, the canteen, and stationery shops—making wise decisions on spending and saving.
+**EduSim: Misi Bijak Wang** is a full-screen interactive educational web app designed for Malaysian upper primary pupils and pupils with mild learning difficulties (MBPK). The app uses a cheerful platform-adventure game style to teach financial literacy.
 
 ## Target Users
-* Malaysian upper primary pupils.
+* Malaysian primary school pupils (Years 4-6).
 * Pupils with mild learning difficulties (MBPK).
 
-## Learning Objectives
-* Distinguish between **needs (keperluan)** and **wants (kehendak)** using a Tree Map (Peta Pokok).
-* Compare prices of items to make cost-effective choices.
-* Calculate total spending and maintain a budget.
-* Understand the importance of saving (simpanan).
-* Develop Higher Order Thinking Skills (KBAT) through decision-making scenarios.
+## Subject and Topic
+* **Subject:** Mathematics.
+* **Topic:** Money and Spending (Financial Literacy).
 
-## Technical Stack
-* **Framework:** React
-* **Build Tool:** Vite
-* **Styling:** Plain CSS (original platform-game aesthetic)
-* **Audio:** Web Audio API (programmatic sound generation)
+## Core Learning Goals
+* Identify needs and wants.
+* Compare prices of items.
+* Calculate total spending.
+* Make responsible and smart spending decisions.
+* Save remaining balance.
+
+## Key Features
+* **RM10 Money Concept:** Realistic and age-appropriate budget management.
+* **Bilingual Support:** Supports both Bahasa Melayu (default) and English.
+* **Human Avatars:** Choose from three friendly Malaysian pupil avatars (Aiman, Sara, Danish).
+* **Mission Progress Path:** 6 interactive missions across different locations (Home, Breakfast Shop, School, Canteen, Stationery Shop, Playground).
+* **Thinking Tool:** "Needs or Wants?" classification activity.
+* **Malay/English Audio Speaker:** Text-to-speech feature for instructions using SpeechSynthesis API.
+* **Interactive HUD:** Persistent display of balance, stars, and coins with language and sound toggles.
+* **Sound Effects:** Original child-friendly sounds generated via Web Audio API.
+* **Budget Bar:** Visual representation of spending with color indicators.
+* **MBPK-Friendly:** Large text, clear icons, gentle feedback, and accessible design.
+
+## Technical Details
+* **Framework:** React + Vite.
+* **Styling:** Plain CSS (No frameworks like Tailwind or Bootstrap).
+* **Audio:** Web Audio API (No external audio files).
+* **Speech:** Web Speech API (SpeechSynthesis).
+* **Assets:** Original CSS shapes, emojis, and inline SVGs.
 
 ## How to Run Locally
-
 1. Clone the repository.
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-4. Build for production:
-   ```bash
-   npm run build
-   ```
+2. Run `npm install` to install dependencies.
+3. Run `npm run dev` to start the development server.
+4. Open `http://localhost:5173` in your browser.
 
-## Pedagogical Explanation (Malay)
-Aplikasi ini menggunakan Peta Pokok untuk mengelaskan keperluan dan kehendak. Aplikasi ini juga menggunakan carta bajet mudah bagi membantu murid mengurus maklumat kewangan. Soalan KBAT mesra murid digunakan melalui aktiviti memilih, membanding, mengira, menilai dan memberi sebab. Produk ini menyokong komunikasi, pemikiran kritis, kreativiti, pembentukan sahsiah dan celik kewangan asas. Reka bentuk visual, arahan pendek, butang besar dan maklum balas segera menjadikan aplikasi ini sesuai untuk pembelajaran terbeza dan murid yang mempunyai masalah pembelajaran ringan.
+## How to Deploy on Vercel
+1. Connect your GitHub repository to Vercel.
+2. Vercel will automatically detect the Vite project.
+3. Click "Deploy".
 
-## Copyright and Design Note
-This application uses an original platform-game inspired design created entirely with CSS, icons, and emojis. It does **not** use any official Super Mario assets, logos, or copyrighted materials from Nintendo.
+## Copyright Note
+This app uses an original platform-adventure educational game style. It does not use official Super Mario characters, logos, music, screenshots, or copyrighted assets. All visuals are created using CSS, emojis, and custom SVGs.
 
 ---
-Ready for Vercel deployment.
+© 2024 EduSim: Misi Bijak Wang
