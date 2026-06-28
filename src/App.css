@@ -608,11 +608,13 @@ button:active {
 
 .cover-screen .card {
   margin-bottom: 0;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .game-title {
   color: var(--brick-orange);
-  text-shadow: 6px 6px 0 var(--dark-text);
   font-size: clamp(2.5rem, 10vw, 5rem);
   margin-bottom: 1.5rem;
 }
