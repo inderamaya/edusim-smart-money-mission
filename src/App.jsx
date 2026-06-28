@@ -18,7 +18,7 @@ import Mission6Screen from './components/Mission6Screen';
 import BudgetChallengeScreen from './components/BudgetChallengeScreen';
 import TeacherNotesScreen from './components/TeacherNotesScreen';
 import MissionCompleteScreen from './components/MissionCompleteScreen';
-import { sounds } from './utils/audio';
+import { sounds, bgMusic } from './utils/audio';
 import { translations } from './data/translations';
 
 function App() {
@@ -40,7 +40,15 @@ function App() {
     window.scrollTo(0, 0);
   };
 
-  const handleToggleSound = () => setSoundEnabled(!soundEnabled);
+  const handleToggleSound = () => {
+    const newState = !soundEnabled;
+    setSoundEnabled(newState);
+    if (!newState) {
+      bgMusic.stop();
+    } else if (currentScreen !== 'COVER') {
+      bgMusic.start();
+    }
+  };
   const handleToggleLanguage = () => {
     setLanguage(prev => prev === 'bm' ? 'en' : 'bm');
     if (soundEnabled && sounds.languageSwitch) sounds.languageSwitch();
@@ -89,6 +97,14 @@ function App() {
     setCompletedMissions([]);
     navigateTo('COVER');
   };
+
+  useEffect(() => {
+    if (soundEnabled && currentScreen !== 'COVER') {
+      bgMusic.start();
+    } else {
+      bgMusic.stop();
+    }
+  }, [currentScreen, soundEnabled]);
 
   const renderScreen = () => {
     const commonProps = { t, language };

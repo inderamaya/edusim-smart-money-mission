@@ -1,6 +1,7 @@
 import React from 'react';
 import GameButton from './GameButton';
 import { speakText } from '../utils/speech';
+import { Play, BookOpen, Target, Volume2, Coins } from 'lucide-react';
 
 const CoverScreen = ({ t, language, onStart, onInstructions, onObjectives }) => {
   const handleListen = () => {
@@ -16,25 +17,25 @@ const CoverScreen = ({ t, language, onStart, onInstructions, onObjectives }) => 
         <div className="learning-block-group">
           <div className="learning-block">RM</div>
           <div className="learning-block">10</div>
-          <div className="learning-block">💰</div>
+          <div className="learning-block"><Coins size={40} color="var(--coin-yellow)" /></div>
         </div>
 
         <div className="button-group" style={{ margin: '0 auto' }}>
           <GameButton color="var(--deep-blue)" onClick={onStart} className="btn-large">
-            🎮 {t.start}
+            <Play size={24} fill="white" /> {t.start}
           </GameButton>
 
           <div className="sub-buttons">
             <GameButton color="var(--brick-orange)" onClick={onInstructions}>
-              📖 {t.instructions}
+              <BookOpen size={20} /> {t.instructions}
             </GameButton>
             <GameButton color="var(--pipe-green)" onClick={onObjectives}>
-              🎯 {t.objectives}
+              <Target size={20} /> {t.objectives}
             </GameButton>
           </div>
 
           <GameButton color="#666" onClick={handleListen}>
-            🔊 {t.listen}
+            <Volume2 size={20} /> {t.listen}
           </GameButton>
         </div>
 

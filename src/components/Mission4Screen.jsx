@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import GameButton from './GameButton';
 import BudgetBar from './BudgetBar';
 import { speakText } from '../utils/speech';
+import { Sandwich, Volume2, Utensils, Soup, Droplets, GlassWater, Popcorn } from 'lucide-react';
 
 const Mission4Screen = ({ t, language, balance, onComplete, showFeedback }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
   const items = [
-    { id: 'ayam', name: t.nasiAyam, price: 3, icon: '🍗', type: 'need' },
-    { id: 'mee', name: t.miGoreng, price: 2, icon: '🍝', type: 'need' },
-    { id: 'water', name: t.airMineral, price: 1, icon: '💧', type: 'need' },
-    { id: 'box', name: t.airKotak, price: 2, icon: '🧃', type: 'want' },
-    { id: 'jajan', name: t.jajan, price: 2, icon: '🍿', type: 'want' }
+    { id: 'ayam', name: t.nasiAyam, price: 3, icon: <Utensils size={32} />, type: 'need' },
+    { id: 'mee', name: t.miGoreng, price: 2, icon: <Soup size={32} />, type: 'need' },
+    { id: 'water', name: t.airMineral, price: 1, icon: <Droplets size={32} />, type: 'need' },
+    { id: 'box', name: t.airKotak, price: 2, icon: <GlassWater size={32} />, type: 'want' },
+    { id: 'jajan', name: t.jajan, price: 2, icon: <Popcorn size={32} />, type: 'want' }
   ];
 
   const toggleItem = (item) => {
@@ -51,7 +52,7 @@ const Mission4Screen = ({ t, language, balance, onComplete, showFeedback }) => {
     <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
-          <span className="mission-icon">🍱</span>
+          <Sandwich size={48} color="var(--soft-red)" />
           <h2>{t.mission4}</h2>
         </div>
 
@@ -79,7 +80,7 @@ const Mission4Screen = ({ t, language, balance, onComplete, showFeedback }) => {
 
         <div className="cart-summary">
           <strong>Total: RM{total}</strong>
-          <GameButton color="#666" onClick={handleListen}>🔊</GameButton>
+          <GameButton color="#666" onClick={handleListen}><Volume2 size={20} /></GameButton>
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '20px' }}>

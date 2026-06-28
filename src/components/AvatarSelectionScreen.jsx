@@ -2,6 +2,7 @@ import React from 'react';
 import AvatarCard, { AimanAvatar, SaraAvatar, DanishAvatar } from './AvatarCard';
 import { speakText } from '../utils/speech';
 import GameButton from './GameButton';
+import { Volume2 } from 'lucide-react';
 
 const AvatarSelectionScreen = ({ t, language, onSelect }) => {
   const avatars = [
@@ -21,7 +22,7 @@ const AvatarSelectionScreen = ({ t, language, onSelect }) => {
 
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <GameButton color="#666" onClick={handleListen}>
-            🔊 {t.listen}
+            <Volume2 size={20} /> {t.listen}
           </GameButton>
         </div>
 

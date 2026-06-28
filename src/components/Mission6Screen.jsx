@@ -2,6 +2,7 @@ import React from 'react';
 import GameButton from './GameButton';
 import BudgetBar from './BudgetBar';
 import { speakText } from '../utils/speech';
+import { TreePine, Volume2, Dessert, Wallet } from 'lucide-react';
 
 const Mission6Screen = ({ t, language, balance, onComplete, showFeedback }) => {
   const handleListen = () => {
@@ -25,7 +26,7 @@ const Mission6Screen = ({ t, language, balance, onComplete, showFeedback }) => {
     <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
-          <span className="mission-icon">🛝</span>
+          <TreePine size={48} color="var(--grass-green)" />
           <h2>{t.mission6}</h2>
         </div>
 
@@ -39,16 +40,16 @@ const Mission6Screen = ({ t, language, balance, onComplete, showFeedback }) => {
 
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <GameButton color="#666" onClick={handleListen}>
-            🔊 {t.listen}
+            <Volume2 size={20} /> {t.listen}
           </GameButton>
         </div>
 
         <div className="grid-flex" style={{ gap: '20px' }}>
           <GameButton color="var(--soft-red)" onClick={() => handleChoice(true)} className="btn-large">
-            🍦 RM1
+            <Dessert size={24} /> RM1
           </GameButton>
           <GameButton color="var(--grass-green)" onClick={() => handleChoice(false)} className="btn-large">
-            💰 {language === 'en' ? 'Save' : 'Simpan'}
+            <Wallet size={24} /> {language === 'en' ? 'Save' : 'Simpan'}
           </GameButton>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import GameButton from './GameButton';
 import { speakText } from '../utils/speech';
+import { CheckCircle2, Volume2, ArrowLeft } from 'lucide-react';
 
 const TeacherNotesScreen = ({ t, language, onBack }) => {
   const notes = language === 'en' ? [
@@ -23,21 +24,23 @@ const TeacherNotesScreen = ({ t, language, onBack }) => {
     <div className="screen-layout">
       <div className="card">
         <h2>{t.teacherNotes}</h2>
-        <div className="notes-content">
+        <div className="notes-content" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           {notes.map((note, i) => (
-            <p key={i}>✅ {note}</p>
+            <p key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+              <CheckCircle2 size={20} color="var(--grass-green)" style={{ flexShrink: 0 }} /> {note}
+            </p>
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '20px', marginTop: '30px' }}>
           <GameButton color="#666" onClick={handleListen}>
-            🔊 {t.listen}
+            <Volume2 size={20} /> {t.listen}
           </GameButton>
         </div>
 
         <div style={{ textAlign: 'center' }}>
           <GameButton color="var(--soft-red)" onClick={onBack}>
-            ⬅️ {t.back}
+            <ArrowLeft size={20} /> {t.back}
           </GameButton>
         </div>
       </div>

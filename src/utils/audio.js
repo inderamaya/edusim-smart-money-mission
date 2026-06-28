@@ -89,3 +89,35 @@ export const sounds = {
   playAvatarSelect: () => playTone(660, 'sine', 0.2),
   avatarSelect: () => playTone(660, 'sine', 0.2)
 };
+
+let bgMusicOscillators = [];
+let bgMusicInterval = null;
+
+export const bgMusic = {
+  start: () => {
+    initAudio();
+    if (bgMusicInterval) return;
+
+    const tempo = 120;
+    const noteLength = 60 / tempo / 2; // eighth note
+    const pattern = [
+      261.63, 261.63, 392.00, 392.00, 440.00, 440.00, 392.00, 0,
+      349.23, 349.23, 329.63, 329.63, 293.66, 293.66, 261.63, 0
+    ];
+    let step = 0;
+
+    bgMusicInterval = setInterval(() => {
+      const freq = pattern[step];
+      if (freq > 0) {
+        playTone(freq, 'square', noteLength * 0.8, 0.03);
+      }
+      step = (step + 1) % pattern.length;
+    }, noteLength * 1000);
+  },
+  stop: () => {
+    if (bgMusicInterval) {
+      clearInterval(bgMusicInterval);
+      bgMusicInterval = null;
+    }
+  }
+};

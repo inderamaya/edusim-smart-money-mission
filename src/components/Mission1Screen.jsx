@@ -2,6 +2,7 @@ import React from 'react';
 import GameButton from './GameButton';
 import BudgetBar from './BudgetBar';
 import { speakText } from '../utils/speech';
+import { Home, Volume2, ArrowRight } from 'lucide-react';
 
 const Mission1Screen = ({ t, language, balance, onComplete, showFeedback }) => {
   const handleListen = () => {
@@ -19,7 +20,7 @@ const Mission1Screen = ({ t, language, balance, onComplete, showFeedback }) => {
     <div className="screen-layout">
       <div className="card">
         <div className="mission-header">
-          <span className="mission-icon">🏠</span>
+          <Home size={48} color="var(--brick-orange)" />
           <h2>{t.mission1}</h2>
         </div>
 
@@ -33,13 +34,13 @@ const Mission1Screen = ({ t, language, balance, onComplete, showFeedback }) => {
 
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <GameButton color="#666" onClick={handleListen}>
-            🔊 {t.listen}
+            <Volume2 size={20} /> {t.listen}
           </GameButton>
         </div>
 
         <div style={{ textAlign: 'center' }}>
           <GameButton color="var(--deep-blue)" onClick={handleFinish} className="btn-large">
-            {t.next} ➡️
+            {t.next} <ArrowRight size={24} />
           </GameButton>
         </div>
       </div>
